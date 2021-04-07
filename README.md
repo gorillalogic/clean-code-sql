@@ -17,11 +17,11 @@ The final guide to write best SQL queries.
   - [ Comments](#-comments)
 
 ## Introduction
----
-Some text
+
+These are guidelines about good practice to write good and readable SQL queries.
 
 ## Indenting
----
+
 Some text
 
 Bad:
@@ -34,7 +34,7 @@ Good:
 example
 ```
 ## Select
----
+
 Some text
 
 Bad:
@@ -48,7 +48,7 @@ example
 ```
 
 ## Joins
----
+
 Some text
 
 Bad:
@@ -62,7 +62,7 @@ example
 ```
 
 ## Tables
----
+
 Some text
 
 Bad:
@@ -76,7 +76,7 @@ example
 ```
 
 ## Columns
----
+
 Some text
 
 Bad:
@@ -90,7 +90,7 @@ example
 ```
 
 ## Procedures
----
+
 Some text
 
 Bad:
@@ -104,7 +104,7 @@ example
 ```
 
 ## Fucntions
----
+
 Some text
 
 Bad:
@@ -118,7 +118,7 @@ example
 ```
 
 ## Views
----
+
 Some text
 
 Bad:
@@ -132,7 +132,7 @@ example
 ```
 
 ## Union / Union All
----
+
 Some text
 
 Bad:
@@ -146,7 +146,7 @@ example
 ```
 
 ## Comments
----
+
 Some text
 
 Bad:
