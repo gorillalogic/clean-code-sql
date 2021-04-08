@@ -22,17 +22,24 @@ These are guidelines about good practice to write good and readable SQL queries.
 
 ## Indenting
 
-Some text
+Indenting makes SQL query visually structured and easier to follow it.
 
 Bad:
-```
-example
+``` sql
+SELECT d.Name, COUNT(*) AS Employees FROM Departments AS d JOIN Employees AS e ON d.ID = e.DepartmentID WHERE d.Name != 'HR' HAVING COUNT(*) > 10 ORDER BY COUNT(*) DESC;
 ```
 
 Good:
+``` sql
+SELECT   d.Name,
+         COUNT(*) AS Employees
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID
+WHERE    d.Name != 'HR'
+HAVING   COUNT(*) > 10
+ORDER BY COUNT(*) DESC;
 ```
-example
-```
+[Back to top](#table-of-contents)
 ## Select
 
 Some text
