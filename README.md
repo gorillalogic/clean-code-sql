@@ -42,31 +42,59 @@ ORDER BY COUNT(*) DESC;
 [Back to top](#table-of-contents)
 ## Select
 
-Some text
+<STRONG>SELECT *</STRONG>
+
+When using <STRONG>SELECT *</STRONG>, all the columns will be returned in the same order as they are defined, so the data returned can change whenever the table definitions changes.
 
 Bad:
-```
-example
+``` sql
+SELECT   *
+FROM     Departments 
 ```
 
 Good:
+``` sql
+SELECT   d.Name,
+         COUNT(*) AS Employees
+FROM     Departments AS d
 ```
-example
+**Table Aliases**
+
+It is more readable to use aliases instead of writing columns with no table information.
+
+Bad:
+``` sql
+SELECT   Name, DepartmentName
+FROM     Departments 
+JOIN     Employees  ON ID = DepartmentID;
+```
+Good:
+``` sql
+SELECT   e.Name, d.DepartmentName
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
+[Back to top](#table-of-contents)
 ## Joins
 
-Some text
+Use the ANSI-Standard Join clauses instead of the old style joins.
 
 Bad:
+``` sql
+SELECT   e.Name, d.DepartmentName
+FROM     Departments AS d,
+         Employees   AS e
+WHERE    d.ID = e.DepartmentID;
 ```
-example
+Good:
+``` sql
+SELECT   e.Name, d.DepartmentName
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-Good:
-```
-example
-```
+[Back to top](#table-of-contents)
 
 ## Tables
 
