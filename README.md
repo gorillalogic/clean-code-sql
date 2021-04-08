@@ -3,18 +3,18 @@ The final guide to write best SQL queries.
 
 ## Table of Contents
 
-- [clean-code-sql](#clean-code-sql) 
-  - [ Introduction](#-introduction)
-  - [ Indenting](#-indenting)
-  - [ Select](#-select)
-  - [ Joins](#-joins)
-  - [ Tables](#-tables)
-  - [ Columns](#-columns)
-  - [ Procedures](#-procedures)
-  - [ Fucntions](#-fucntions)
-  - [ Views](#-views)
-  - [ Union / Union All](#-union--union-all)
-  - [ Comments](#-comments)
+- [Clean-code-sql](#clean-code-sql) 
+  - [Introduction](#introduction)
+  - [Indenting](#indenting)
+  - [Select](#select)
+  - [Joins](#joins)
+  - [Tables](#tables)
+  - [Columns](#columns)
+  - [Procedures](#procedures)
+  - [Fucntions](#fucntions)
+  - [Views](#views)
+  - [Union / Union All](#union--union-all)
+  - [Comments](#comments)
 
 ## Introduction
 
