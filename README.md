@@ -22,44 +22,97 @@ These are guidelines about good practice to write good and readable SQL queries.
 
 ## Indenting
 
-Some text
+Indenting makes SQL query visually structured and easier to follow it.
 
 Bad:
-```
-example
+``` sql
+SELECT d.DepartmentName,e.Name, e.LastName, e.Address, e.State, e.City, e.Zip FROM Departments AS d JOIN Employees AS e ON d.ID = e.DepartmentID WHERE d.DepartmentName != 'HR';
 ```
 
 Good:
+``` sql
+SELECT    d.DepartmentName
+        , e.Name
+        , e.LastName
+        , e.Address
+        , e.State
+        , e.City
+        , e.Zip
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID
+WHERE    d.Name != 'HR';
 ```
-example
-```
+[Back to top](#table-of-contents)
 ## Select
 
-Some text
+<STRONG>SELECT *</STRONG>
+
+When using <STRONG>SELECT *</STRONG>, all the columns will be returned in the same order as they are defined, so the data returned can change whenever the table definitions changes.
 
 Bad:
-```
-example
+``` sql
+SELECT   *
+FROM     Departments 
 ```
 
 Good:
+``` sql
+SELECT    d.DepartmentName
+        , d.Location
+FROM     Departments AS d
 ```
-example
+**Table Aliases**
+
+It is more readable to use aliases instead of writing columns with no table information.
+
+Bad:
+``` sql
+SELECT   Name, DepartmentName
+FROM     Departments 
+JOIN     Employees  ON ID = DepartmentID;
+```
+Good:
+``` sql
+SELECT   e.Name, d.DepartmentName
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
+**SELECT DISTINCT**
+
+SELECT DISTINCT is a practical way to remove duplicates from a query, however its use requires a high processing cost. Better select more fields to create unique results.
+
+Bad:
+``` sql
+SELECT   DISTINCT Name, LastName, Address
+FROM     Employees;
+```
+Good:
+``` sql
+SELECT   Name, LastName, Address, State, City, Zip
+FROM     Employees;
+```
+
+[Back to top](#table-of-contents)
 ## Joins
 
-Some text
+Use the ANSI-Standard Join clauses instead of the old style joins.
 
 Bad:
+``` sql
+SELECT   e.Name, d.DepartmentName
+FROM     Departments AS d,
+         Employees   AS e
+WHERE    d.ID = e.DepartmentID;
 ```
-example
+Good:
+``` sql
+SELECT   e.Name, d.DepartmentName
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-Good:
-```
-example
-```
+[Back to top](#table-of-contents)
 
 ## Tables
 
