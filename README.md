@@ -75,6 +75,21 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
+**SELECT DISTINCT**
+
+SELECT DISTINCT is a practical way to remove duplicates from a query, however its use requires a high processing cost. Better select more fields to create unique results.
+
+Bad:
+``` sql
+SELECT   DISTINCT Name, LastName, Address
+FROM     Employees;
+```
+Good:
+``` sql
+SELECT   Name, LastName, Address, State, City, Zip
+FROM     Employees;
+```
+
 [Back to top](#table-of-contents)
 ## Joins
 
