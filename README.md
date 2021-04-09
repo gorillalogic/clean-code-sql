@@ -26,18 +26,21 @@ Indenting makes SQL query visually structured and easier to follow it.
 
 Bad:
 ``` sql
-SELECT d.Name, COUNT(*) AS Employees FROM Departments AS d JOIN Employees AS e ON d.ID = e.DepartmentID WHERE d.Name != 'HR' HAVING COUNT(*) > 10 ORDER BY COUNT(*) DESC;
+SELECT d.DepartmentName,e.Name, e.LastName, e.Address, e.State, e.City, e.Zip FROM Departments AS d JOIN Employees AS e ON d.ID = e.DepartmentID WHERE d.DepartmentName != 'HR';
 ```
 
 Good:
 ``` sql
-SELECT   d.Name,
-         COUNT(*) AS Employees
+SELECT    d.DepartmentName
+        , e.Name
+        , e.LastName
+        , e.Address
+        , e.State
+        , e.City
+        , e.Zip
 FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID
-WHERE    d.Name != 'HR'
-HAVING   COUNT(*) > 10
-ORDER BY COUNT(*) DESC;
+WHERE    d.Name != 'HR';
 ```
 [Back to top](#table-of-contents)
 ## Select
@@ -54,8 +57,8 @@ FROM     Departments
 
 Good:
 ``` sql
-SELECT   d.Name,
-         COUNT(*) AS Employees
+SELECT    d.DepartmentName
+        , d.Location
 FROM     Departments AS d
 ```
 **Table Aliases**
