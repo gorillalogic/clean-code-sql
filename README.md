@@ -172,18 +172,50 @@ example
 
 ## Views
 
-Some text
+Don't use the word 'view' in the view's name 
 
 Bad:
-```
-example
+```sql
+- ViewEmployeesDepartments
+- EmployeeDeparments
 ```
 
 Good:
-```
-example
+```sql
+- EmployeeDeparments
 ```
 
+Don't  include Order by and Where conditions into the view
+
+Bad:
+```sql
+SELECT  EmployeeId, Name, LastName, Address, State
+FROM    Employees 
+WHERE   EmployeeId > 0 ORDER BY Name
+```
+
+Good:
+```sql
+SELECT   Name, LastName, Address, State, City, Zip
+FROM     Employees;
+```
+
+Use Alias with table + column to specify when the values come from
+
+Bad:
+```sql
+SELECT   e.Name, d.Name
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID;
+```
+
+Good:
+```sql
+SELECT   e.Name as EmployeeName, d.Name as DeparmentName
+FROM     Departments AS d
+JOIN     Employees AS e ON d.ID = e.DepartmentID;
+```
+[Back to top](#table-of-contents)
 ## Union / Union All
 
 Some text
