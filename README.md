@@ -172,6 +172,19 @@ example
 
 ## Views
 
+Don't use the word 'view' in the view's name 
+
+Bad:
+```sql
+- ViewEmployeesDepartments
+- EmployeeDeparments
+```
+
+Good:
+```sql
+- EmployeeDeparments
+```
+
 Don't  include Order by and Where conditions into the view
 
 Bad:
