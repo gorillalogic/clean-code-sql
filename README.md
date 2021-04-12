@@ -116,30 +116,58 @@ JOIN     Employees AS e ON d.ID = e.DepartmentID;
 
 ## Tables
 
-Some text
+For naming tables take in to consideration the following advices:
+
+* Use singular names 
+* Use schema name prefix
+* Use Pascal case
 
 Bad:
-```
-example
+```sql
+CREATE TABLE Addresses
 ```
 
 Good:
-```
-example
+```sql
+CREATE TABLE [Person].[Address]
 ```
 
 ## Columns
 
-Some text
+For naming columns take in to consideration the following advices:
+
+* Use singular names  
+* Use Pascal case
+* Name your primary keys using "[TableName]ID" format
+* Be descriptive
+* Be consistent
 
 Bad:
-```
-example
+```sql
+CREATE TABLE [Person].[Address](
+	[Address] [int] NOT NULL,
+	[AddressLine1] [nvarchar](60) NOT NULL,
+	[Address2] [nvarchar](60) NULL,
+	[city] [nvarchar](30) NOT NULL,
+	[State_ProvinceID] [int] NOT NULL,
+	[postalCode] [nvarchar](15) NOT NULL,	
+	[ModifiedDate] [datetime] NOT NULL,
+    CONSTRAINT [PK_Address_AddressID] PRIMARY KEY CLUSTERED ([Address])
+);
 ```
 
 Good:
-```
-example
+```sql
+CREATE TABLE [Person].[Address](
+	[AddressID] [int] NOT NULL,
+	[AddressLine1] [nvarchar](60) NOT NULL,
+	[AddressLine2] [nvarchar](60) NULL,
+	[City] [nvarchar](30) NOT NULL,
+	[StateProvinceID] [int] NOT NULL,
+	[PostalCode] [nvarchar](15) NOT NULL,	
+	[ModifiedDate] [datetime] NOT NULL,
+    CONSTRAINT [PK_Address_AddressID] PRIMARY KEY CLUSTERED ([AddressID])
+);
 ```
 
 ## Procedures
