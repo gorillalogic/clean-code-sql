@@ -215,7 +215,7 @@ SELECT   e.Name as EmployeeName, d.Name as DeparmentName
 FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
-
+[Back to top](#table-of-contents)
 ## Union / Union All
 
 Some text
