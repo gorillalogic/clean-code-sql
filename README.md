@@ -12,13 +12,12 @@ The final guide to write best SQL queries.
   - [Columns](#columns)
   - [Procedures](#procedures)
   - [Fucntions](#fucntions)
-  - [Views](#views)
-  - [Union / Union All](#union--union-all)
+  - [Views](#views) 
   - [Comments](#comments)
 
 ## Introduction
 
-These are guidelines about good practice to write good and readable SQL queries.
+These are guidelignes about good practices to write cleaner and better SQL queries.
 
 ## Indenting
 
@@ -116,7 +115,7 @@ JOIN     Employees AS e ON d.ID = e.DepartmentID;
 
 ## Tables
 
-For naming tables take in to consideration the following advices:
+For naming tables take into consideration the following advices:
 
 * Use singular names 
 * Use schema name prefix
@@ -131,10 +130,10 @@ Good:
 ```sql
 CREATE TABLE [Person].[Address]
 ```
-
+[Back to top](#table-of-contents)
 ## Columns
 
-For naming columns take in to consideration the following advices:
+For naming columns take into consideration the following advices:
 
 * Use singular names  
 * Use Pascal case
@@ -169,10 +168,16 @@ CREATE TABLE [Person].[Address](
     CONSTRAINT [PK_Address_AddressID] PRIMARY KEY CLUSTERED ([AddressID])
 );
 ```
-
+[Back to top](#table-of-contents)
 ## Procedures
 
-Some text
+To write incredible stored procedures, take into consideration the following advices:
+
+* Use the SET NOCOUNT ON option in the beginning of the stored procedure to prevent the server from sending row counts of data affected by some statement or stored procedure to the client.
+* Try to write the DECLARATION and initialization (SET) at the beginning of the stored procedure.
+* Write all the SQL Server keywords in the CAPS letter.
+* Avoid to use 'sp_' at the begining of the stored procedure name.
+* Take into consideration the previous sections, [Indenting](#indenting) - [Select](#select)  - [Joins](#joins).
 
 Bad:
 ```
@@ -183,7 +188,7 @@ Good:
 ```
 example
 ```
-
+[Back to top](#table-of-contents)
 ## Fucntions
 
 Some text
@@ -197,7 +202,7 @@ Good:
 ```
 example
 ```
-
+[Back to top](#table-of-contents)
 ## Views
 
 Don't use the word 'view' in the view's name 
@@ -244,32 +249,39 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 [Back to top](#table-of-contents)
-## Union / Union All
-
-Some text
-
-Bad:
-```
-example
-```
-
-Good:
-```
-example
-```
 
 ## Comments
 
-Some text
+Write helpful comments and only when necessary. Do not write comments trying to explain the code that we will understand by reading the code itself.
 
 Bad:
-```
-example
+```sql
+CREATE OR ALTER PROCEDURE [dbo].[uspLogError] 
+    @ErrorLogID [int] = 0 OUTPUT 
+AS                             
+BEGIN
+    SET NOCOUNT ON;   
+    -- Setting ErrorLogID to 0
+    SET @ErrorLogID = 0;
+
+	--some code
+END;
 ```
 
 Good:
-```
-example
-```
+```sql
+CREATE OR ALTER PROCEDURE [dbo].[uspLogError] 
+    @ErrorLogID [int] = 0 OUTPUT 
+AS                             
+BEGIN
+    SET NOCOUNT ON;
 
+    -- Output parameter value of 0 indicates that error 
+    -- information was not logged
+    SET @ErrorLogID = 0;
+
+	--some code
+END;
+```
+[Back to top](#table-of-contents)
 
