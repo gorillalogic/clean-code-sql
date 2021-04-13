@@ -111,9 +111,9 @@ SELECT   e.name
        , e.salary
 FROM Employee AS e
 WHERE e.EmployeeID IN (SELECT   p.IdNumber 
-						 FROM   Population AS p
-						 WHERE  p.country = "Canada"
-							AND   p.city = "Toronto");      
+			FROM   Population AS p
+			WHERE  p.country = "Canada"
+			       AND   p.city = "Toronto");      
 ```
 Good:
 ``` sql
@@ -121,9 +121,9 @@ SELECT   e.name
        , e.salary
 FROM Employee AS e
 WHERE e.EmployeeID EXISTS (SELECT   p.IdNumber 
-						 FROM   Population AS p
-						 WHERE  p.country = "Canada"
-							AND   p.city = "Toronto");    
+			   FROM   Population AS p
+			   WHERE  p.country = "Canada"
+				  AND   p.city = "Toronto");    
 ```
 
 [Back to top](#table-of-contents)
@@ -353,24 +353,24 @@ SELECT   e.name
        , e.salary
 FROM Employee AS e
 WHERE e.EmployeeID EXISTS (SELECT   p.IdNumber 
-						 FROM   Population AS p
-						 WHERE  p.country = "Canada"
-							AND p.city = "Toronto")
+			   FROM   Population AS p
+			   WHERE  p.country = "Canada"
+				AND p.city = "Toronto")
       AND e.salary >= (SELECT	AVG(s.salary)
-						FROM	salaries AS s
-						WHERE	s.gender = "Female")
+			FROM	salaries AS s
+			WHERE	s.gender = "Female")
 ```
 
 Good:
 ```sql
-WITH toronto_ppl as (
-   SELECT   p.IdNumber 
+WITH toronto_ppl AS (
+         SELECT   p.IdNumber 
 	 FROM   Population AS p
 	 WHERE  p.country = "Canada"
 		AND p.city = "Toronto"
 )
-, avg_female_salary as (
-   SELECT	AVG(s.salary) AS avgSalary
+, avg_female_salary AS (
+        SELECT	AVG(s.salary) AS avgSalary
 	 FROM	salaries AS s
 	WHERE	s.gender = "Female"
 )
