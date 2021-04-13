@@ -180,13 +180,34 @@ To write incredible stored procedures, take into consideration the following adv
 * Take into consideration the previous sections, [Indenting](#indenting) - [Select](#select)  - [Joins](#joins).
 
 Bad:
-```
-example
+```sql
+CREATE OR ALTER PROCEDURE [HumanResources].[sp_UpdateEmployeePersonalInfo]
+    @BusinessEntityID [int], 
+    @NationalIDNumber [nvarchar](15), 
+    @BirthDate [datetime], 
+    @MaritalStatus [nchar](1), 
+    @Gender [nchar](1)
+AS
+BEGIN   
+   --some code
+END;
 ```
 
 Good:
-```
-example
+```sql
+CREATE OR ALTER PROCEDURE [HumanResources].[UpdateEmployeePersonalInfo]
+    @BusinessEntityID [int], 
+    @NationalIDNumber [nvarchar](15), 
+    @BirthDate [datetime], 
+    @MaritalStatus [nchar](1), 
+    @Gender [nchar](1)
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @messageLog nvarchar(100)
+	SET @messageLog = 'Updating the employee personal info';
+   --some code
+END;
 ```
 [Back to top](#table-of-contents)
 ## Fucntions
