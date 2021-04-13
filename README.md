@@ -10,10 +10,11 @@ The final guide to write best SQL queries.
   - [Joins](#joins)
   - [Tables](#tables)
   - [Columns](#columns)
-  - [Procedures](#procedures)
-  - [Fucntions](#fucntions)
+  - [Procedures](#procedures) 
   - [Views](#views) 
   - [Comments](#comments)
+  - [Modularize](#modularize)
+  - [Temporary tables](#temporary-tables)
 
 ## Introduction
 
@@ -90,6 +91,30 @@ Good:
 ``` sql
 SELECT   Name, LastName, Address, State, City, Zip
 FROM     Employees;
+```
+**EXISTS**
+
+Prefer EXISTS to IN. Exists process exits as soon it finds the value, whereas IN scan the entire table.
+
+Bad:
+``` sql
+SELECT   e.name
+       , e.salary
+FROM Employee AS e
+WHERE e.EmployeeID IN (SELECT   p.IdNumber 
+						 FROM   Population AS p
+						 WHERE  p.country = "Canada"
+							AND   p.city = "Toronto");      
+```
+Good:
+``` sql
+SELECT   e.name
+       , e.salary
+FROM Employee AS e
+WHERE e.EmployeeID EXISTS (SELECT   p.IdNumber 
+						 FROM   Population AS p
+						 WHERE  p.country = "Canada"
+							AND   p.city = "Toronto");    
 ```
 
 [Back to top](#table-of-contents)
@@ -210,20 +235,7 @@ BEGIN
 END;
 ```
 [Back to top](#table-of-contents)
-## Fucntions
 
-Some text
-
-Bad:
-```
-example
-```
-
-Good:
-```
-example
-```
-[Back to top](#table-of-contents)
 ## Views
 
 Don't use the word 'view' in the view's name 
@@ -306,3 +318,65 @@ END;
 ```
 [Back to top](#table-of-contents)
 
+## Modularize
+
+When writing a long query, thinking about modularizing is a good idea. Using common table expressions (CTEs) you can break down your code and make it easy to understand.
+
+Bad:
+```sql
+SELECT   e.name
+       , e.salary
+FROM Employee AS e
+WHERE e.EmployeeID EXISTS (SELECT   p.IdNumber 
+						 FROM   Population AS p
+						 WHERE  p.country = "Canada"
+							AND p.city = "Toronto")
+      AND e.salary >= (SELECT	AVG(s.salary)
+						FROM	salaries AS s
+						WHERE	s.gender = "Female")
+```
+
+Good:
+```sql
+WITH toronto_ppl as (
+   SELECT   p.IdNumber 
+	 FROM   Population AS p
+	 WHERE  p.country = "Canada"
+		AND p.city = "Toronto"
+)
+, avg_female_salary as (
+   SELECT	AVG(s.salary) AS avgSalary
+	 FROM	salaries AS s
+	WHERE	s.gender = "Female"
+)
+SELECT   e.name
+       , e.salary
+FROM Employee AS e
+WHERE e.EmployeeID EXISTS (SELECT IdNumber FROM toronto_ppl)
+      AND e.salary >= (SELECT avgSalary FROM avg_female_salary)
+```
+[Back to top](#table-of-contents)
+
+## Temporary tables
+
+Prefer to use a Table variable when the result set is small instead of a Temporary table. A temp table will be created on the temp database and that will make your query slower
+
+Bad:
+```sql
+DECLARE TABLE #ListOWeekDays
+(
+  DyNumber INT,
+  DayAbb   VARCHAR(40),
+  WeekName VARCHAR(40)
+)
+```
+Good:
+```sql
+DECLARE @ListOWeekDays TABLE
+(
+  DyNumber INT,
+  DayAbb   VARCHAR(40),
+  WeekName VARCHAR(40)
+)
+```
+[Back to top](#table-of-contents)
