@@ -229,9 +229,12 @@ CREATE OR ALTER PROCEDURE [HumanResources].[UpdateEmployeePersonalInfo]
 AS
 BEGIN
     SET NOCOUNT ON;
-	DECLARE @messageLog nvarchar(100)
-	SET @messageLog = 'Updating the employee personal info';
-   --some code
+    
+    DECLARE @messageLog nvarchar(100);
+    
+    SET @messageLog = 'Updating the employee personal info';
+    
+    --some code
 END;
 ```
 [Back to top](#table-of-contents)
