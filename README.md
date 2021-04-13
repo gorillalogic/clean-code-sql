@@ -211,7 +211,12 @@ WHERE   EmployeeId > 0 ORDER BY Name
 
 Good:
 ```sql
-SELECT   Name, LastName, Address, State, City, Zip
+SELECT   Name, 
+         LastName, 
+         Address, 
+         State, 
+         City, 
+         Zip
 FROM     Employees;
 ```
 
