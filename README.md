@@ -177,7 +177,7 @@ Don't use the word 'view' in the view's name
 Bad:
 ```sql
 - ViewEmployeesDepartments
-- EmployeeDeparments
+- EmployeeDeparmentsView
 ```
 
 Good:
