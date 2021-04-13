@@ -196,7 +196,7 @@ Good:
 - EmployeeDeparments
 ```
 
-Don't  include Order by and Where conditions into the view
+Don't include Order by and Where conditions into the view
 
 Bad:
 ```sql
