@@ -67,13 +67,15 @@ It is more readable to use aliases instead of writing columns with no table info
 
 Bad:
 ``` sql
-SELECT   Name, DepartmentName
+SELECT   Name, 
+         DepartmentName
 FROM     Departments 
 JOIN     Employees  ON ID = DepartmentID;
 ```
 Good:
 ``` sql
-SELECT   e.Name, d.DepartmentName
+SELECT   e.Name, 
+         d.DepartmentName
 FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
@@ -84,12 +86,19 @@ SELECT DISTINCT is a practical way to remove duplicates from a query, however it
 
 Bad:
 ``` sql
-SELECT   DISTINCT Name, LastName, Address
+SELECT   DISTINCT Name,
+         LastName, 
+         Address
 FROM     Employees;
 ```
 Good:
 ``` sql
-SELECT   Name, LastName, Address, State, City, Zip
+SELECT   Name, 
+         LastName, 
+         Address, 
+         State, 
+         City, 
+         Zip
 FROM     Employees;
 ```
 
@@ -100,14 +109,16 @@ Use the ANSI-Standard Join clauses instead of the old style joins.
 
 Bad:
 ``` sql
-SELECT   e.Name, d.DepartmentName
+SELECT   e.Name, 
+         d.DepartmentName
 FROM     Departments AS d,
          Employees   AS e
 WHERE    d.ID = e.DepartmentID;
 ```
 Good:
 ``` sql
-SELECT   e.Name, d.DepartmentName
+SELECT   e.Name, 
+         d.DepartmentName
 FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
@@ -189,7 +200,11 @@ Don't  include Order by and Where conditions into the view
 
 Bad:
 ```sql
-SELECT  EmployeeId, Name, LastName, Address, State
+SELECT  EmployeeId, 
+        Name, 
+        LastName, 
+        Address, 
+        State
 FROM    Employees 
 WHERE   EmployeeId > 0 ORDER BY Name
 ```
@@ -204,14 +219,16 @@ Use Alias with table + column to specify when the values come from
 
 Bad:
 ```sql
-SELECT   e.Name, d.Name
+SELECT   e.Name, 
+         d.Name
 FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
 Good:
 ```sql
-SELECT   e.Name as EmployeeName, d.Name as DeparmentName
+SELECT   e.Name as EmployeeName, 
+         d.Name as DeparmentName
 FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
