@@ -5,6 +5,7 @@ The final guide to write best SQL queries.
 ## Table of Contents
 
 - [Clean-code-sql](#clean-code-sql)
+  - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Indenting](#indenting)
   - [Select](#select)
@@ -16,6 +17,8 @@ The final guide to write best SQL queries.
   - [Comments](#comments)
   - [Modularize](#modularize)
   - [Temporary tables](#temporary-tables)
+  - [Looping](#looping)
+  - [When troubleshooting](#when-troubleshooting)
 
 ## Introduction
 
@@ -363,7 +366,7 @@ BEGIN
     -- Setting ErrorLogID to 0
     SET @ErrorLogID = 0;
 
-	--some code
+	//some code
 END;
 ```
 
@@ -380,7 +383,7 @@ BEGIN
     -- information was not logged
     SET @ErrorLogID = 0;
 
-	--some code
+	//some code
 END;
 ```
 
@@ -453,5 +456,47 @@ DECLARE @ListOWeekDays TABLE
   WeekName VARCHAR(40)
 )
 ```
+
+[Back to top](#table-of-contents)
+
+## Looping
+
+Avoid running queries using a loop. Coding SQL queries in loops slows down the entire sequence
+
+Bad:
+
+```sql
+WHILE @date <= @endMonth
+BEGIN
+    SET @date = DATEADD(d, 1, @date)
+END
+```
+
+Good:
+
+```sql
+DECLARE @StartDate DateTime = '2021-06-01'
+DECLARE @EndDate DateTime = '2021-06-29'
+
+;WITH populateDates (dates) AS (
+
+    SELECT @StartDate as dates
+    UNION ALL
+    SELECT DATEADD(d, 1, dates)
+    FROM populateDates
+    WHERE DATEADD(d, 1, dates)<=@EndDate
+
+)
+SELECT *
+INTO dbo.SomeTable
+FROM populateDates
+```
+
+[Back to top](#table-of-contents)
+
+## When troubleshooting
+
+- Use the Execution Plan tool if you have it available, with it you can see the statistics and warnings, which can help you find improvement areas.
+- Use the comma before the column, it is useful when for some reason you have to comment out columns.
 
 [Back to top](#table-of-contents)
