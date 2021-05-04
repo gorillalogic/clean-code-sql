@@ -288,7 +288,7 @@ END;
 
 ## Views
 
-Don't use the word 'view' in the view's name
+Don't use the word 'view' in the view's name.
 
 Bad:
 
@@ -303,7 +303,7 @@ Good:
 - EmployeeDeparments
 ```
 
-Don't include Order by and Where conditions into the view
+Don't include Order by and Where conditions into the view.
 
 Bad:
 
@@ -329,7 +329,7 @@ SELECT   Name,
 FROM     Employees;
 ```
 
-Use Alias with table + column to specify when the values come from
+Use Alias with table + column to specify when the values come from.
 
 Bad:
 
@@ -433,7 +433,7 @@ WHERE e.EmployeeID EXISTS (SELECT IdNumber FROM toronto_ppl)
 
 ## Temporary tables
 
-Prefer to use a Table variable when the result set is small instead of a Temporary table. A temp table will be created on the temp database and that will make your query slower
+Prefer to use a Table variable when the result set is small instead of a Temporary table. A temp table will be created on the temp database and that will make your query slower.
 
 Bad:
 
@@ -461,7 +461,7 @@ DECLARE @ListOWeekDays TABLE
 
 ## Looping
 
-Avoid running queries using a loop. Coding SQL queries in loops slows down the entire sequence
+Avoid running queries using a loop. Coding SQL queries in loops slows down the entire sequence.
 
 Bad:
 
