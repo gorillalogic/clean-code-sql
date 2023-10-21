@@ -6,21 +6,21 @@
 
 ## جدول محتوا
 
-- [کد نویسی تمیز در sql](#clean-code-sql)
-  - [جدول محتوا](#table-of-contents)
-  - [مقدمه](#introduction)
-  - [تورفتگی ها و فاصله ها](#indenting)
-  - [دستور Select](#select)
-  - [دستور Joins](#joins)
-  - [جداول](#tables)
-  - [ستون ها](#columns)
+- [کد نویسی تمیز در sql](#کد-نویسی-تمیز-در-sql)
+  - [جدول محتوا](#جدول-محتوا)
+  - [مقدمه](#مقدمه)
+  - [تورفتگی ها و فاصله ها](#تورفتگی-ها-و-فاصله-ها)
+  - [دستور Select](#دستور-Select)
+  - [دستور Joins](#دستور-Joins)
+  - [جداول](#جداول)
+  - [ستون ها](#ستون-ها)
   - [Procedures](#procedures)
   - [Views](#views)
-  - [نظرات](#comments)
-  - [ماژولار کردن](#modularize)
-  - [جداول موقت ](#temporary-tables)
-  - [حلقه ی لوپ](#looping)
-  - [عیب یابی](#when-troubleshooting)
+  - [نظرات](#نظرات)
+  - [ماژولار کردن](#ماژولار-کردن)
+  - [جداول موقت](#جداول-موقت)
+  - [حلقه ی لوپ](#حلقه-ی-لوپ)
+  - [عیب یابی](#عیب-یابی)
 
 ## مقدمه
 
@@ -51,7 +51,7 @@ JOIN     Employees AS e ON d.ID = e.DepartmentID
 WHERE    d.Name != 'HR';
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## دستور Select
 
@@ -154,7 +154,7 @@ WHERE e.EmployeeID EXISTS (SELECT   p.IdNumber
 				  AND   p.city = "Toronto");
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Joins
 
@@ -179,7 +179,7 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## جداول
 
@@ -202,7 +202,7 @@ CREATE TABLE Addresses
 CREATE TABLE [Person].[Address]
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Columns
 
@@ -244,7 +244,7 @@ CREATE TABLE [Person].[Address](
 );
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## روند
 
@@ -292,7 +292,7 @@ BEGIN
 END;
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Views
 
@@ -361,7 +361,7 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## نظرات ها
 
@@ -400,7 +400,7 @@ BEGIN
 END;
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## ماژولار کردن
 
@@ -443,7 +443,7 @@ WHERE e.EmployeeID EXISTS (SELECT IdNumber FROM toronto_ppl)
       AND e.salary >= (SELECT avgSalary FROM avg_female_salary)
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## جداول موقت
 
@@ -472,7 +472,7 @@ DECLARE @ListOWeekDays TABLE
 )
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Looping
 
@@ -508,12 +508,12 @@ INTO dbo.SomeTable
 FROM populateDates
 ```
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## عیب یابی
 
 - در صورت در دسترس بودن ، از ابزار Execution Plan استفاده کنید.با این ابزار می توانید هشدارها و آمارها را مشاهده کنید.
 - از کاما قبل از ستون ها استفاده کنید ، زمانی که مجبور به کامنت گذاری هستید می تواند مفید باشد.
 
-[برگشت به بالا](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 </div>
