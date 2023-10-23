@@ -1,40 +1,42 @@
-# Clean-code-sql
+<div dir="rtl">
 
-The final guide to write best SQL queries.
+# کد نویسی تمیز در زبان sql
 
-## Table of Contents
+یک راهنما برای اینکه کدهای تمیزی بنویسید.
 
-- [Clean-code-sql](#clean-code-sql)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Indenting](#indenting)
-  - [Select](#select)
-  - [Joins](#joins)
-  - [Tables](#tables)
-  - [Columns](#columns)
+## جدول محتوا
+
+- [کد نویسی تمیز در sql](#کد-نویسی-تمیز-در-sql)
+  - [جدول محتوا](#جدول-محتوا)
+  - [مقدمه](#مقدمه)
+  - [تورفتگی ها و فاصله ها](#تورفتگی-ها-و-فاصله-ها)
+  - [دستور Select](#دستور-Select)
+  - [دستور Joins](#دستور-Joins)
+  - [جداول](#جداول)
+  - [ستون ها](#ستون-ها)
   - [Procedures](#procedures)
   - [Views](#views)
-  - [Comments](#comments)
-  - [Modularize](#modularize)
-  - [Temporary tables](#temporary-tables)
-  - [Looping](#looping)
-  - [When troubleshooting](#when-troubleshooting)
+  - [نظرات](#نظرات)
+  - [ماژولار کردن](#ماژولار-کردن)
+  - [جداول موقت](#جداول-موقت)
+  - [حلقه ی لوپ](#حلقه-ی-لوپ)
+  - [عیب یابی](#عیب-یابی)
 
-## Introduction
+## مقدمه
 
-These are guidelignes about good practices to write cleaner and better SQL queries.
+این دستورالعمل ها در مورد شیوه های خوب برای نوشتن کوئری های تمیزتر و بهتر هستند.
 
-## Indenting
+## تورفتگی ها و فاصله ها
 
-Indenting makes SQL query visually structured and easier to follow it.
+استفاده از تورفتگی ها و فاصله های درست، باعث خوانایی بهتر کدها می شوند.
 
-Bad:
+بد:
 
 ```sql
 SELECT d.DepartmentName,e.Name, e.LastName, e.Address, e.State, e.City, e.Zip FROM Departments AS d JOIN Employees AS e ON d.ID = e.DepartmentID WHERE d.DepartmentName != 'HR';
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT    d.DepartmentName
@@ -49,22 +51,22 @@ JOIN     Employees AS e ON d.ID = e.DepartmentID
 WHERE    d.Name != 'HR';
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
-## Select
+## دستور Select
 
-<STRONG>SELECT \*</STRONG>
+زمانی که از دستور select  استفاده میکنید، همه ی ستون ها به شکلی که order را تعریف کرده اید به شما نمایش داده می شوند( برگردانده می شوند)
+بنابراین هر زمانی که شما order را تغییر دهید ، داده های برگشتی نیز تغییر می کنند.
+بهتر است که شما فقط ستون هایی که نیاز دارید را انتخاب کنید.
 
-When using <STRONG>SELECT \*</STRONG>, all the columns will be returned in the same order as they are defined, so the data returned can change whenever the table definitions change.
-
-Bad:
+بد:
 
 ```sql
 SELECT   *
 FROM     Departments
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT    d.DepartmentName
@@ -72,11 +74,12 @@ SELECT    d.DepartmentName
 FROM     Departments AS d
 ```
 
-**Table Aliases**
+**نام های مستعار برای جدول ها**
 
-It is more readable to use aliases instead of writing columns with no table information.
+به جای نوشتن اسم ستون ها بدون هیچ توضیحاتی، ما از اسم مستعار جدول به همراه اسم ستون استفاده میکنیم.
+با این کار دقیقا متوجه خواهیم شد که این ستون از کدام جدول بوده است.
 
-Bad:
+بد:
 
 ```sql
 SELECT   Name,
@@ -85,7 +88,7 @@ FROM     Departments
 JOIN     Employees  ON ID = DepartmentID;
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT   e.Name
@@ -94,11 +97,13 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-**SELECT DISTINCT**
+**دستور SELECT DISTINCT**
 
-SELECT DISTINCT is a practical way to remove duplicates from a query, however its use requires a high processing cost. Better select more fields to create unique results.
+SELECT DISTINCT روشی برای حذف موارد تکراری از نتایج کوئری است. 
+اما توجه داشته باشید که استفاده از این دستور پردازش بیشتری انجام می دهد.
+بنابراین بهتر است از ستون های بیشتری برای این کوئری استفاده کنید.
 
-Bad:
+بد:
 
 ```sql
 SELECT   DISTINCT Name,
@@ -107,7 +112,7 @@ SELECT   DISTINCT Name,
 FROM     Employees;
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT   Name
@@ -119,11 +124,13 @@ SELECT   Name
 FROM     Employees;
 ```
 
-**EXISTS**
+**دستور EXISTS**
 
-Prefer EXISTS to IN. Exists process exits as soon it finds the value, whereas IN scan the entire table.
+استفاده از دستور EXISTS  به جای دستور IN.
+به دلیل اینکه دستور EXISTS برخلاف IN در هنگام یافتن نتیجه ی درست، خارج می شود.
+ولی دستور IN کل جدول را اسکن می کند.
 
-Bad:
+بد:
 
 ```sql
 SELECT   e.name
@@ -135,7 +142,7 @@ WHERE e.EmployeeID IN (SELECT   p.IdNumber
 			       AND   p.city = "Toronto");
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT   e.name
@@ -147,13 +154,13 @@ WHERE e.EmployeeID EXISTS (SELECT   p.IdNumber
 				  AND   p.city = "Toronto");
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Joins
 
-Use the ANSI-Standard Join clauses instead of the old style joins.
+استفاده از JOIN به جای حالت قدیمی.
 
-Bad:
+بد:
 
 ```sql
 SELECT   e.Name,
@@ -163,7 +170,7 @@ FROM     Departments AS d,
 WHERE    d.ID = e.DepartmentID;
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT   e.Name,
@@ -172,41 +179,42 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
-## Tables
+## جداول
 
-For naming tables take into consideration the following advices:
+برای اسم گذاری جدول ها از موارد زیر استفاده کنید:
 
-- Use singular names
-- Use schema name prefix
-- Use Pascal case
+- استفاده از اسم های مفرد
+- استفاده از پاسکال کیس در اسم گذاری (در این روش حرف اول تمامی کلمه‌ها را با حروف بزرگ و مابقی حروف را بصورت کوچیک تایپ می‌کنند)
+- استفاده از یک نمای یک طبقه بندی در قبل از اسم جدول([Person].[Address])
 
-Bad:
+
+بد:
 
 ```sql
 CREATE TABLE Addresses
 ```
 
-Good:
+خوب:
 
 ```sql
 CREATE TABLE [Person].[Address]
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Columns
 
-For naming columns take into consideration the following advices:
+برای اسم گذاری ستون ها به این موارد توجه داشته باشید:
 
-- Use singular names
-- Use Pascal case
-- Name your primary keys using "[TableName]ID" format
-- Be descriptive
-- Be consistent
+- استفاده از نام های مفرد 
+- استفاده از روش نوشتاری پاسکال کیس (در این روش حرف اول تمامی کلمه‌ها را با حروف بزرگ و مابقی حروف را بصورت کوچیک تایپ می‌کنند)
+- از فرمت "TableName+ID" برای Primary key  ها استفاده کنید.
+- بهتر است اسم ستون های شما دقیقا محتویات درون آن ستون را تعریف کند
+- در اجرای این قوانین سرسخت باشید و خود را ملزم به استفاده از آن کنید.
 
-Bad:
+بد:
 
 ```sql
 CREATE TABLE [Person].[Address](
@@ -221,7 +229,7 @@ CREATE TABLE [Person].[Address](
 );
 ```
 
-Good:
+خوب:
 
 ```sql
 CREATE TABLE [Person].[Address](
@@ -236,19 +244,19 @@ CREATE TABLE [Person].[Address](
 );
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
-## Procedures
+## روند
 
-To write incredible stored procedures, take into consideration the following advices:
+برای نوشتن stored procedure های بهتر، این موارد را در نظر بگیرید: 
 
-- Use the SET NOCOUNT ON option in the beginning of the stored procedure to prevent the server from sending row counts of data affected by some statement or stored procedure to the client.
-- Try to write the DECLARATION and initialization (SET) at the beginning of the stored procedure.
-- Write all the SQL Server keywords in the CAPS letter.
-- Avoid to use 'sp\_' at the begining of the stored procedure name.
-- Take into consideration the previous sections, [Indenting](#indenting) - [Select](#select) - [Joins](#joins).
+- از گزینه SET NOCOUNT ON در ابتدای رویه ذخیره شده استفاده کنید تا سرور از ارسال تعداد ردیف داده های تحت تأثیر برخی دستورات یا رویه های ذخیره شده به مشتری جلوگیری کند.
+- سعی کنید DECLARATION و مقداردهی اولیه (SET) را در ابتدای رویه ذخیره شده بنویسید.
+- تمام کلمات کلیدی SQL Server را با حرف CAPS بنویسید.
+- از استفاده از 'sp\_' در ابتدای نام رویه ذخیره شده خودداری کنید.
+- بخش های قبلی را در نظر بگیرید, [Indenting](#indenting) - [Select](#select) - [Joins](#joins).
 
-Bad:
+بد:
 
 ```sql
 CREATE OR ALTER PROCEDURE [HumanResources].[sp_UpdateEmployeePersonalInfo]
@@ -263,7 +271,7 @@ BEGIN
 END;
 ```
 
-Good:
+خوب:
 
 ```sql
 CREATE OR ALTER PROCEDURE [HumanResources].[UpdateEmployeePersonalInfo]
@@ -284,28 +292,32 @@ BEGIN
 END;
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Views
 
-Don't use the word 'view' in the view's name.
+هرگز از کلمه ی view در اسم ها استفاده نکنید .
 
-Bad:
+
+
+بد:
 
 ```sql
 - ViewEmployeesDepartments
 - EmployeeDeparmentsView
 ```
 
-Good:
+خوب:
 
 ```sql
 - EmployeeDeparments
 ```
 
-Don't include Order by and Where conditions into the view.
+هرگز از دستور order by و where با هم استفاده نکنید.
+استفاده از هر دو مورد باعث پیچیدگی دستور خواهد شد.
+بهتر است فیلترهای مرتب سازی را در نتایج بکار ببرید.
 
-Bad:
+بد:
 
 ```sql
 SELECT  EmployeeId,
@@ -317,7 +329,7 @@ FROM    Employees
 WHERE   EmployeeId > 0 ORDER BY Name
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT   Name,
@@ -329,9 +341,9 @@ SELECT   Name,
 FROM     Employees;
 ```
 
-Use Alias with table + column to specify when the values come from.
+استفاده از نام مستعار (جدول + اسم ستون) برای مشخص بودن نتایج برگشت داده شده.
 
-Bad:
+بد:
 
 ```sql
 SELECT   e.Name,
@@ -340,7 +352,7 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-Good:
+خوب:
 
 ```sql
 SELECT   e.Name as EmployeeName,
@@ -349,13 +361,14 @@ FROM     Departments AS d
 JOIN     Employees AS e ON d.ID = e.DepartmentID;
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
-## Comments
+## نظرات ها
 
-Write helpful comments and only when necessary. Do not write comments trying to explain the code that we will understand by reading the code itself.
 
-Bad:
+نظرات مفید بنویسید. برای توضیح کدهایی که با خواندن خود کد متوجه می شویم نظر ننویسید.
+
+بد:
 
 ```sql
 CREATE OR ALTER PROCEDURE [dbo].[uspLogError]
@@ -370,7 +383,7 @@ BEGIN
 END;
 ```
 
-Good:
+خوب:
 
 ```sql
 CREATE OR ALTER PROCEDURE [dbo].[uspLogError]
@@ -387,13 +400,14 @@ BEGIN
 END;
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
-## Modularize
+## ماژولار کردن
 
-When writing a long query, thinking about modularizing is a good idea. Using common table expressions (CTEs) you can break down your code and make it easy to understand.
+هنگامی که یک کوئری بسیار طولانی دارید، فکر کردن درباره ی ماژولار کردن آن ایده ی خوبی است.
+استفاده از (CTEs) می تواند به تجزیه و قابل فهم کردن آن کمک بسیاری بکند.
 
-Bad:
+بد:
 
 ```sql
 SELECT   e.name
@@ -408,7 +422,7 @@ WHERE e.EmployeeID EXISTS (SELECT   p.IdNumber
 			WHERE	s.gender = "Female")
 ```
 
-Good:
+خوب:
 
 ```sql
 WITH toronto_ppl AS (
@@ -429,13 +443,14 @@ WHERE e.EmployeeID EXISTS (SELECT IdNumber FROM toronto_ppl)
       AND e.salary >= (SELECT avgSalary FROM avg_female_salary)
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
-## Temporary tables
+## جداول موقت
 
-Prefer to use a Table variable when the result set is small instead of a Temporary table. A temp table will be created on the temp database and that will make your query slower.
+به جای استفاده از temporary table از متغیر table استفاده بکنید. زیرا که temporary table یک temp table در دیتابیس شما می سازد و بنابراین کوئری شما را آهسته تر می کند.
 
-Bad:
+
+بد:
 
 ```sql
 DECLARE TABLE #ListOWeekDays
@@ -446,7 +461,7 @@ DECLARE TABLE #ListOWeekDays
 )
 ```
 
-Good:
+خوب:
 
 ```sql
 DECLARE @ListOWeekDays TABLE
@@ -457,13 +472,14 @@ DECLARE @ListOWeekDays TABLE
 )
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
 ## Looping
 
-Avoid running queries using a loop. Coding SQL queries in loops slows down the entire sequence.
+از اجرای یک کوئری با استفاده از حلقه ی لوپ خودداری کنید.
+کدنویسی با استفاده از حلقه ی لوپ سرعت اجرای کوئری را کند می کند.
 
-Bad:
+بد:
 
 ```sql
 WHILE @date <= @endMonth
@@ -472,7 +488,7 @@ BEGIN
 END
 ```
 
-Good:
+خوب:
 
 ```sql
 DECLARE @StartDate DateTime = '2021-06-01'
@@ -492,11 +508,12 @@ INTO dbo.SomeTable
 FROM populateDates
 ```
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
 
-## When troubleshooting
+## عیب یابی
 
-- Use the Execution Plan tool if you have it available, with it you can see the statistics and warnings, which can help you find improvement areas.
-- Use the comma before the column, it is useful when for some reason you have to comment out columns.
+- در صورت در دسترس بودن ، از ابزار Execution Plan استفاده کنید.با این ابزار می توانید هشدارها و آمارها را مشاهده کنید.
+- از کاما قبل از ستون ها استفاده کنید ، زمانی که مجبور به کامنت گذاری هستید می تواند مفید باشد.
 
-[Back to top](#table-of-contents)
+[برگشت به بالا](#جدول-محتوا)
+</div>
